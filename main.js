@@ -4,6 +4,7 @@ import vertex from "./shaders/vertex.glsl?raw";
 import fragment from "./shaders/fragment.glsl?raw";
 import GUI from "lil-gui";
 import Stats from "./Stats";
+import ShadowContact from "./ShadowContact";
 
 class Experience {
   constructor(canvas) {
@@ -20,11 +21,17 @@ class Experience {
     this.setEvents();
     this.setTick();
     this.setDebug();
+
+    this.setShadowContact();
+  }
+
+  setShadowContact() {
+    this.shadowContact = new ShadowContact(this.renderer, this.scene);
   }
 
   setMesh() {
     this.mesh = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 2, 1),
+      new THREE.BoxGeometry(0.5, 0.5, 0.5),
       new THREE.MeshStandardMaterial({
         color: "hotpink",
       })
@@ -34,18 +41,6 @@ class Experience {
     this.mesh.receiveShadow = true;
 
     this.scene.add(this.mesh);
-
-    this.ground = new THREE.Mesh(
-      new THREE.CircleGeometry(5, 48),
-      new THREE.MeshStandardMaterial({ color: "white" })
-    );
-
-    this.ground.position.y = -1;
-    this.ground.rotation.x = -Math.PI / 2;
-
-    this.ground.receiveShadow = true;
-
-    this.scene.add(this.ground);
   }
 
   setCamera() {
@@ -55,7 +50,7 @@ class Experience {
       0.1,
       100
     );
-    this.camera.position.set(0, 2, 5);
+    this.camera.position.set(0, 1, 2);
 
     const controls = new OrbitControls(this.camera, this.canvas);
     controls.enableDamping = true;
@@ -100,7 +95,7 @@ class Experience {
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.setClearColor("black");
+    this.renderer.setClearColor("white");
     this.renderer.shadowMap.enabled = true;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.5;
@@ -135,6 +130,10 @@ class Experience {
     this.mesh.rotation.y += this.deltaTime;
 
     this.updateControls(this.deltaTime);
+
+    if (this.shadowContact) {
+      this.shadowContact.update();
+    }
 
     this.stats.end();
     requestAnimationFrame(this.tick);
