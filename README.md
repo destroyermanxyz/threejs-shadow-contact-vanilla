@@ -4,7 +4,7 @@ https://github.com/destroyermanxyz/threejs-shadow-contact-vanilla/assets/1142583
 
 I just copied the threejs example and make it working when i instanciate it.
 
-You can tweak values from the gui and after modify it at the top of the ShadowContact.js
+You can tweak values from the gui and after modify it at the top of the ShadowContact.js\
 To make the plane transparent set the plane opacity to 0.
 
 ```js
