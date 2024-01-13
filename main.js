@@ -48,7 +48,7 @@ class Experience {
       0.1,
       100
     );
-    this.camera.position.set(0, 1, 2);
+    this.camera.position.set(0, 0.5, 2);
 
     const controls = new OrbitControls(this.camera, this.canvas);
     controls.enableDamping = true;

@@ -20,7 +20,7 @@ export default class ShadowContact {
       plane: {
         color: "#ffffff",
         opacity: 1,
-        y: -0.3,
+        y: -0.375,
       },
       camera: {
         height: 0.3,
