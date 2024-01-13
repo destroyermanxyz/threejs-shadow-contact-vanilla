@@ -1,9 +1,13 @@
 import * as THREE from "three";
+import { GUI } from "three/addons/libs/lil-gui.module.min.js";
 import { HorizontalBlurShader } from "three/addons/shaders/HorizontalBlurShader.js";
 import { VerticalBlurShader } from "three/addons/shaders/VerticalBlurShader.js";
 
 export default class ShadowContact {
-  constructor(renderer, scene, gui) {
+  constructor(renderer, scene, myGui) {
+    let gui;
+    if (myGui) gui = myGui;
+
     const PLANE_WIDTH = 2.5;
     const PLANE_HEIGHT = 2.5;
 
@@ -16,7 +20,7 @@ export default class ShadowContact {
       plane: {
         color: "#ffffff",
         opacity: 1,
-        y: -0.35,
+        y: -0.3,
       },
       camera: {
         height: 0.3,
@@ -123,6 +127,7 @@ export default class ShadowContact {
 
       //
 
+      if (!gui) gui = new GUI();
       const shadowFolder = gui.addFolder("shadow");
       shadowFolder.open();
       const planeFolder = gui.addFolder("plane");
