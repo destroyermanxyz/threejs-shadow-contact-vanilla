@@ -1,7 +1,5 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import vertex from "./shaders/vertex.glsl?raw";
-import fragment from "./shaders/fragment.glsl?raw";
 import GUI from "lil-gui";
 import Stats from "./Stats";
 import ShadowContact from "./ShadowContact";
@@ -22,11 +20,11 @@ class Experience {
     this.setTick();
     this.setDebug();
 
-    this.setShadowContact();
+    this.setShadowContact(); // launch when everything loaded because i need rendere, scene and gui
   }
 
   setShadowContact() {
-    this.shadowContact = new ShadowContact(this.renderer, this.scene);
+    this.shadowContact = new ShadowContact(this.renderer, this.scene, this.gui);
   }
 
   setMesh() {
@@ -66,10 +64,9 @@ class Experience {
     this.dir.position.set(1.76, 2.26, 2.38);
     this.dir.castShadow = true;
     this.dir.shadow.mapSize = new THREE.Vector2(1024 * 2, 1024 * 2);
+    this.scene.add(this.dir);
 
     this.dirHelp = new THREE.DirectionalLightHelper(this.dir, 1, "red");
-
-    this.scene.add(this.dirHelp, this.dir);
 
     this.ambient = new THREE.AmbientLight();
     this.scene.add(this.ambient);
@@ -140,9 +137,9 @@ class Experience {
   }
 
   setDebug() {
-    const gui = new GUI();
+    this.gui = new GUI();
 
-    const dirFolder = gui.addFolder("Directional light");
+    const dirFolder = this.gui.addFolder("Directional light");
 
     dirFolder
       .add(this.dir.position, "x", 0, 10)
